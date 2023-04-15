@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cw8ivqxcvkxyk"]
+
+[ext_resource type="Script" path="res://nodes/CardsToDeal.gd" id="1_dvth6"]
+[ext_resource type="Texture2D" uid="uid://cstjfdruynnkx" path="res://assets/cards/53.png" id="2_qbufb"]
+
+[node name="CardsToDeal" type="Node2D"]
+script = ExtResource("1_dvth6")
+
+[node name="CardSetToDeal" type="Sprite2D" parent="."]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_qbufb")

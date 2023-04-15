@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://cikxyaxg1jgti"]
+
+[ext_resource type="Script" path="res://nodes/DeckCards.gd" id="1_rdf64"]
+[ext_resource type="Texture2D" uid="uid://cstjfdruynnkx" path="res://assets/cards/53.png" id="2_k62x2"]
+
+[node name="DeckCards" type="Node2D"]
+script = ExtResource("1_rdf64")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+centered = false
+
+[node name="c1" type="Sprite2D" parent="Sprite2D"]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_k62x2")
+centered = false
+
+[node name="c2" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(-6, 4)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_k62x2")
+centered = false
+
+[node name="c3" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(-11, 9)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_k62x2")
+centered = false
