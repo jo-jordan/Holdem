@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://d3g64mxwxy2xe"]
 
-[ext_resource type="Script" path="res://Game.gd" id="1_0bbaj"]
+[ext_resource type="Script" path="res://Main.gd" id="1_1j6qv"]
 [ext_resource type="Script" path="res://FrontDoorController.gd" id="4_4xqgy"]
 
 [sub_resource type="Theme" id="Theme_osc66"]
@@ -45,7 +45,7 @@ _data = {
 }
 
 [node name="Main" type="Node2D"]
-script = ExtResource("1_0bbaj")
+script = ExtResource("1_1j6qv")
 
 [node name="FrontDoor" type="Control" parent="."]
 layout_mode = 3
@@ -99,3 +99,5 @@ text = "Create Table"
 libraries = {
 "": SubResource("AnimationLibrary_tldnw")
 }
+
+[connection signal="pressed" from="FrontDoor/JoinTable" to="FrontDoor" method="_on_join_table"]

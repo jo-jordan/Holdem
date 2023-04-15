@@ -1,13 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://chjdbc8r5p4jh"]
+[gd_scene load_steps=8 format=3 uid="uid://chjdbc8r5p4jh"]
 
 [ext_resource type="Script" path="res://TableController.gd" id="1_yo7rq"]
-[ext_resource type="Texture2D" uid="uid://x2ccvfnapp8g" path="res://assets/table/table.png" id="2_x2xcq"]
-[ext_resource type="Texture2D" uid="uid://bd35351v0i8ic" path="res://assets/cards/1.png" id="3_8bf1k"]
-[ext_resource type="PackedScene" uid="uid://cw8ivqxcvkxyk" path="res://nodes/CardsToDeal.tscn" id="4_gqlal"]
-[ext_resource type="PackedScene" uid="uid://cikxyaxg1jgti" path="res://nodes/DeckCards.tscn" id="5_1s2j8"]
+[ext_resource type="Texture2D" uid="uid://tqf61qesen6x" path="res://assets/table/table.png" id="2_x2xcq"]
+[ext_resource type="PackedScene" path="res://nodes/CardsToDeal.tscn" id="3_gdclr"]
+[ext_resource type="PackedScene" path="res://nodes/DeckCards.tscn" id="4_j7hwl"]
+[ext_resource type="Script" path="res://nodes/CardsOnDeck.gd" id="5_s40nu"]
 
 [sub_resource type="SystemFont" id="SystemFont_p4rry"]
 subpixel_positioning = 0
+
+[sub_resource type="SystemFont" id="SystemFont_sxfs2"]
 
 [node name="TableControl" type="Control"]
 layout_mode = 3
@@ -45,28 +47,65 @@ offset_bottom = 292.0
 scale = Vector2(0.8, 0.8)
 
 [node name="Counter" type="Label" parent="Seats/Seat1"]
-offset_left = 64.0
-offset_top = -32.0
-offset_right = 168.0
-offset_bottom = 8.0
+offset_left = 40.0
+offset_right = 116.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(1, 0, 1, 1)
+theme_override_fonts/font = SubResource("SystemFont_sxfs2")
+theme_override_font_sizes/font_size = 28
 text = "30S"
 
 [node name="Points" type="Label" parent="Seats/Seat1"]
-offset_left = 264.0
-offset_top = -32.0
-offset_right = 344.0
+offset_left = 107.0
+offset_top = -3.0
+offset_right = 243.0
+offset_bottom = 56.0
+theme_override_font_sizes/font_size = 30
 text = "99999"
 
 [node name="Nickname" type="Label" parent="Seats/Seat1"]
-offset_left = 168.0
-offset_top = -32.0
-offset_right = 288.0
-offset_bottom = 16.0
+offset_left = 106.0
+offset_top = -36.0
+offset_right = 182.0
+offset_bottom = 8.0
+theme_override_font_sizes/font_size = 28
 text = "Nick1"
+
+[node name="OptionContainer" type="HBoxContainer" parent="Seats/Seat1"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 290.0
+offset_top = -3.0
+offset_right = 669.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CheckButton" type="Button" parent="Seats/Seat1/OptionContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Check"
+
+[node name="CallButton" type="Button" parent="Seats/Seat1/OptionContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Call"
+
+[node name="FoldButton" type="Button" parent="Seats/Seat1/OptionContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Fold"
+
+[node name="RaiseButton" type="Button" parent="Seats/Seat1/OptionContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Raise"
 
 [node name="Seat2" type="Node2D" parent="Seats"]
 position = Vector2(192, 672)
-metadata/_edit_group_ = true
 
 [node name="CardList" type="HBoxContainer" parent="Seats/Seat2"]
 layout_direction = 2
@@ -178,17 +217,18 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="Seat6" type="Node2D" parent="Seats"]
-position = Vector2(1200, 688)
+position = Vector2(1468, 677)
+metadata/_edit_group_ = true
 
 [node name="CardList" type="HBoxContainer" parent="Seats/Seat6"]
 layout_direction = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 280.0
-offset_top = -8.0
-offset_right = 610.0
-offset_bottom = 244.0
+offset_left = 3.0
+offset_top = -2.0
+offset_right = 333.0
+offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.8, 0.8)
@@ -207,49 +247,27 @@ offset_top = -64.0
 offset_right = 224.0
 offset_bottom = -41.0
 
+[node name="DeckCards" parent="." instance=ExtResource("4_j7hwl")]
+position = Vector2(1282, 365)
+
+[node name="CardsToDeal" parent="." instance=ExtResource("3_gdclr")]
+position = Vector2(1346, 466)
+
 [node name="CardsOnDeck" type="Node2D" parent="."]
+position = Vector2(589, 463)
+script = ExtResource("5_s40nu")
+metadata/_edit_group_ = true
 
 [node name="CardList" type="HBoxContainer" parent="CardsOnDeck"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 448.0
-offset_top = 376.0
-offset_right = 1214.0
-offset_bottom = 628.0
+offset_left = -86.0
+offset_top = -93.0
+offset_right = 680.0
+offset_bottom = 159.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.8, 0.8)
-
-[node name="TextureRect" type="TextureRect" parent="CardsOnDeck/CardList"]
-layout_mode = 2
-texture = ExtResource("3_8bf1k")
-stretch_mode = 2
-
-[node name="TextureRect2" type="TextureRect" parent="CardsOnDeck/CardList"]
-layout_mode = 2
-texture = ExtResource("3_8bf1k")
-stretch_mode = 2
-
-[node name="TextureRect3" type="TextureRect" parent="CardsOnDeck/CardList"]
-layout_mode = 2
-texture = ExtResource("3_8bf1k")
-stretch_mode = 2
-
-[node name="TextureRect4" type="TextureRect" parent="CardsOnDeck/CardList"]
-layout_mode = 2
-texture = ExtResource("3_8bf1k")
-stretch_mode = 2
-
-[node name="TextureRect5" type="TextureRect" parent="CardsOnDeck/CardList"]
-layout_mode = 2
-texture = ExtResource("3_8bf1k")
-stretch_mode = 2
-
-[node name="DeckCards" parent="." instance=ExtResource("5_1s2j8")]
-position = Vector2(1256, 376)
-
-[node name="CardsToDeal" parent="." instance=ExtResource("4_gqlal")]
-position = Vector2(1304, 488)
 
 [connection signal="pressed" from="Button" to="." method="_on_exit_button_pressed"]

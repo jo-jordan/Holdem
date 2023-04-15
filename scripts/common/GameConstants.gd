@@ -2,24 +2,18 @@ extends Node
 
 class_name GameConstants
 
-const USER_POSITION = Vector2(848, 880)
+const USER_POSITION: Vector2 = Vector2(848, 880)
 
-const PLAYER_POS_1 = Vector2()
-const PLAYER_POS_2 = Vector2()
-const PLAYER_POS_3 = Vector2()
-const PLAYER_POS_4 = Vector2()
-const PLAYER_POS_5 = Vector2()
-
-const PLAYER_EAT_MAP = { \
+const PLAYER_EAT_MAP: Dictionary = { \
 	1: USER_POSITION, \
 	2: Vector2(176, 688), \
 	3: Vector2(176, 344), \
 	4: Vector2(960, 160), \
 	5: Vector2(1608, 344), \
 	6: Vector2(1608, 688), \
-}
+};
 
-const CARD_INDEX_LIST = [\
+const CARD_INDEX_LIST: Array[Variant] = [\
 	102, \
 	103, \
 	104, \
@@ -72,9 +66,9 @@ const CARD_INDEX_LIST = [\
 	412, \
 	413, \
 	414, \
-]
+];
 
-const CARD_INDEX_TO_IMAGE_INDEX = { \
+const CARD_INDEX_TO_IMAGE_INDEX: Dictionary = { \
 	102: 2, \
 	103: 3, \
 	104: 4, \
@@ -130,8 +124,8 @@ const CARD_INDEX_TO_IMAGE_INDEX = { \
 	412: 51, \
 	413: 52, \
 	414: 40, \
-}
+};
 
-const DEFAULT_CARD_SCALE = Vector2(0.8, 0.8)
+const DEFAULT_CARD_SCALE: Vector2 = Vector2(0.8, 0.8)
 
-const DECK_CARD_POSITION = Vector2(1400, 500)
+const DECK_CARD_POSITION:Vector2 = Vector2(1400, 500)

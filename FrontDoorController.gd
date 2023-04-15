@@ -3,8 +3,7 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var joinBtn: Button = get_child(1)
-	joinBtn.pressed.connect(_on_join_table)
+	pass
 	
 
 func _on_join_table():

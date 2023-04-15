@@ -2,8 +2,6 @@ extends Node
 
 class_name DeckUtils
 
-var deckToDealSCN = preload("res://nodes/CardsToDeal.tscn")
-
 var card_list: Array
 
 func _init():
