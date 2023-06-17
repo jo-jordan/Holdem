@@ -1,14 +1,135 @@
-extends Node2D
+extends Node
+
+# The URL we will connect to
+var http_auth_url = "http://127.0.0.1:8887/login"
 
 
-# Called when the node enters the scene tree for the first time.
+var isLogin = false
+var json = JSON.new()
+
+var timer = Timer.new()
+var isJoinRoom = false
+
+var roomList = []
+
 func _ready():
-	pass
+	NetworkHub.room_created.connect(_room_created)
+	NetworkHub.room_joined.connect(_room_joined)
+	NetworkHub.room_searched.connect(_room_searched)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func _login():
+	# Create an HTTP request node and connect its completion signal.
+	var http_request = HTTPRequest.new()
+	add_child(http_request)
+	http_request.request_completed.connect(self._http_login_completed)
+	
+	var headers = PackedStringArray(
+		[str("X-Username:", Global.username), str("X-Password:", "aa")])
+
+	# Perform a GET request. The URL below returns JSON as of writing.
+	var error = http_request.request(http_auth_url, headers)
+	if error != OK:
+		push_error("An error occurred in the HTTP request.")
+		
+	await http_request.request_completed
+
+# Called when the HTTP request is completed.
+func _http_login_completed(result, response_code, headers, body):
+	var response = JSON.parse_string(body.get_string_from_utf8())
+	Global.playerId = response["playerId"]
+	print(response)
+	isLogin = true
+	
+	NetworkHub.connect_to_ws()
+	await NetworkHub.on_ws_connected
+	print("await NetworkHub.on_ws_connected")
+	
+func _check_and_set_username():
+	Global.username = $UsernameText.text
+	if Global.username == null || Global.username == "":
+		$Popup.visible = true
+		$Popup/Label.text = "Enter your username first!"
+		return
+		
+
+func _search_room(keyword):
+	var dict = {
+		"type": "ROOM_SEARCH",
+		"keyword": keyword
+	}
+	NetworkHub.send(dict)
+
+func _room_joined(data):
+	var roomInfo = data["roomInfo"]
+	Global.playerList = roomInfo["playerInfoList"]
+	Global.roomName = roomInfo["roomName"]
+	Global.gameConfig = roomInfo["gameConfig"]
+	
+	print("_room_joined: ", data)
+
+func _room_created(data):
+	var roomInfo = data["roomInfo"]
+	Global.playerList = roomInfo["playerInfoList"]
+	Global.roomName = roomInfo["roomName"]
+	Global.gameConfig = roomInfo["gameConfig"]
+	print("_room_created: ", data)
+	var animation: AnimationPlayer = get_node("AnimationPlayer")
+	animation.play("hide_front_door")
+
+	var table_scene = load("res://nodes/TableControl.tscn")
+	get_parent().add_child(table_scene.instantiate())
+
+func _room_searched(data):
+	roomList = data["roomList"]
+	$AcceptDialog/ItemList.clear()
+	if !$AcceptDialog/ItemList.item_clicked.is_connected(_do_join_room):
+		$AcceptDialog/ItemList.item_clicked.connect(_do_join_room)
+	for room in data["roomList"]:
+		$AcceptDialog/ItemList.add_item(str(room.roomName, ": ", room.roomId))
+		
+
+func _do_join_room(index, p1, p2):
+	print(roomList[index])
+	Global.roomId = roomList[index]["roomId"]
+	var dict = {
+		"type": "ROOM_JOIN",
+		"playerId": Global.playerId,
+		"roomId": Global.roomId
+	}
+	NetworkHub.send(dict)
+	$AcceptDialog.visible = false
+
+func _join_room():
+	if !$WSTimer.is_stopped():
+		$WSTimer.stop()
+		
+	_search_room("")
 	
 
-func _physics_process(delta):
-	pass
+
+func _create_room():
+	$WSTimer.stop()
+	print("_create_room", Global.playerId)
+	var dict = {
+		"type": "ROOM_CREATE",
+		"playerId": Global.playerId,
+		"name": "Holdem"
+	}
+	NetworkHub.send(dict)
+
+func _on_join_table_pressed():
+	isJoinRoom = true
+	_check_and_set_username()
+	if !isLogin:
+		await _login()
+	$AcceptDialog.visible = true
+	_join_room()
+
+func _on_create_table_pressed():
+	isJoinRoom = false
+	_check_and_set_username()
+	
+	if !isLogin:
+		await _login()
+	_create_room()
+

@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://chjdbc8r5p4jh"]
 
-[ext_resource type="Script" path="res://TableController.gd" id="1_yo7rq"]
+[ext_resource type="Script" path="res://Room.gd" id="1_olyts"]
 [ext_resource type="Texture2D" uid="uid://tqf61qesen6x" path="res://assets/table/table.png" id="2_x2xcq"]
-[ext_resource type="PackedScene" path="res://nodes/CardsToDeal.tscn" id="3_gdclr"]
-[ext_resource type="PackedScene" path="res://nodes/DeckCards.tscn" id="4_j7hwl"]
+[ext_resource type="PackedScene" uid="uid://cw8ivqxcvkxyk" path="res://nodes/CardsToDeal.tscn" id="3_gdclr"]
+[ext_resource type="PackedScene" uid="uid://cikxyaxg1jgti" path="res://nodes/DeckCards.tscn" id="4_j7hwl"]
 [ext_resource type="Script" path="res://nodes/CardsOnDeck.gd" id="5_s40nu"]
 
 [sub_resource type="SystemFont" id="SystemFont_p4rry"]
@@ -11,10 +11,8 @@ subpixel_positioning = 0
 
 [sub_resource type="SystemFont" id="SystemFont_sxfs2"]
 
-[node name="TableControl" type="Control"]
-layout_mode = 3
-anchors_preset = 0
-script = ExtResource("1_yo7rq")
+[node name="Room" type="Node"]
+script = ExtResource("1_olyts")
 metadata/_edit_vertical_guides_ = [960.0]
 metadata/_edit_horizontal_guides_ = [680.0]
 
@@ -23,7 +21,6 @@ texture = ExtResource("2_x2xcq")
 centered = false
 
 [node name="Button" type="Button" parent="."]
-layout_mode = 0
 offset_left = 1728.0
 offset_top = 40.0
 offset_right = 1896.0
@@ -31,7 +28,7 @@ offset_bottom = 104.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = SubResource("SystemFont_p4rry")
 theme_override_font_sizes/font_size = 30
-text = "Exit Table"
+text = "Exit Room"
 
 [node name="Seats" type="Node2D" parent="."]
 
@@ -104,6 +101,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Raise"
 
+[node name="Position" type="Label" parent="Seats/Seat1"]
+offset_left = 34.0
+offset_top = -34.0
+offset_right = 103.0
+offset_bottom = -5.0
+
 [node name="Seat2" type="Node2D" parent="Seats"]
 position = Vector2(192, 672)
 
@@ -131,6 +134,12 @@ offset_bottom = 23.0
 [node name="Nickname" type="Label" parent="Seats/Seat2"]
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="Position" type="Label" parent="Seats/Seat2"]
+offset_left = 34.0
+offset_top = -34.0
+offset_right = 103.0
+offset_bottom = -5.0
 
 [node name="Seat3" type="Node2D" parent="Seats"]
 position = Vector2(176, 224)
@@ -160,6 +169,12 @@ offset_bottom = 23.0
 offset_right = 40.0
 offset_bottom = 23.0
 
+[node name="Position" type="Label" parent="Seats/Seat3"]
+offset_left = 34.0
+offset_top = -34.0
+offset_right = 103.0
+offset_bottom = -5.0
+
 [node name="Seat4" type="Node2D" parent="Seats"]
 position = Vector2(832, 96)
 
@@ -188,6 +203,12 @@ offset_bottom = 23.0
 offset_right = 40.0
 offset_bottom = 23.0
 
+[node name="Position" type="Label" parent="Seats/Seat4"]
+offset_left = 34.0
+offset_top = -34.0
+offset_right = 103.0
+offset_bottom = -5.0
+
 [node name="Seat5" type="Node2D" parent="Seats"]
 position = Vector2(1480, 232)
 
@@ -215,6 +236,12 @@ offset_bottom = 23.0
 [node name="Nickname" type="Label" parent="Seats/Seat5"]
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="Position" type="Label" parent="Seats/Seat5"]
+offset_left = 34.0
+offset_top = -34.0
+offset_right = 103.0
+offset_bottom = -5.0
 
 [node name="Seat6" type="Node2D" parent="Seats"]
 position = Vector2(1468, 677)
@@ -247,6 +274,12 @@ offset_top = -64.0
 offset_right = 224.0
 offset_bottom = -41.0
 
+[node name="Position" type="Label" parent="Seats/Seat6"]
+offset_left = 34.0
+offset_top = -34.0
+offset_right = 103.0
+offset_bottom = -5.0
+
 [node name="DeckCards" parent="." instance=ExtResource("4_j7hwl")]
 position = Vector2(1282, 365)
 
@@ -269,5 +302,11 @@ offset_bottom = 159.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.8, 0.8)
+
+[node name="Popup" type="Popup" parent="."]
+
+[node name="Label" type="Label" parent="Popup"]
+offset_right = 40.0
+offset_bottom = 23.0
 
 [connection signal="pressed" from="Button" to="." method="_on_exit_button_pressed"]
