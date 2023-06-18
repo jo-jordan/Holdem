@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=3 uid="uid://chjdbc8r5p4jh"]
 
-[ext_resource type="Script" path="res://Room.gd" id="1_olyts"]
-[ext_resource type="Texture2D" uid="uid://tqf61qesen6x" path="res://assets/table/table.png" id="2_x2xcq"]
-[ext_resource type="PackedScene" uid="uid://cw8ivqxcvkxyk" path="res://nodes/CardsToDeal.tscn" id="3_gdclr"]
-[ext_resource type="PackedScene" uid="uid://cikxyaxg1jgti" path="res://nodes/DeckCards.tscn" id="4_j7hwl"]
-[ext_resource type="Script" path="res://nodes/CardsOnDeck.gd" id="5_s40nu"]
+[ext_resource type="Script" path="res://Room.gd" id="1_cq6xx"]
+[ext_resource type="Texture2D" uid="uid://tqf61qesen6x" path="res://assets/table/table.png" id="2_o6c2w"]
+[ext_resource type="PackedScene" uid="uid://cikxyaxg1jgti" path="res://nodes/DeckCards.tscn" id="3_xp2h7"]
+[ext_resource type="PackedScene" uid="uid://cw8ivqxcvkxyk" path="res://nodes/CardsToDeal.tscn" id="4_7iq34"]
+[ext_resource type="Script" path="res://nodes/CardsOnDeck.gd" id="5_apm0q"]
 
 [sub_resource type="SystemFont" id="SystemFont_p4rry"]
 subpixel_positioning = 0
@@ -12,12 +12,12 @@ subpixel_positioning = 0
 [sub_resource type="SystemFont" id="SystemFont_sxfs2"]
 
 [node name="Room" type="Node"]
-script = ExtResource("1_olyts")
+script = ExtResource("1_cq6xx")
 metadata/_edit_vertical_guides_ = [960.0]
 metadata/_edit_horizontal_guides_ = [680.0]
 
 [node name="Table" type="Sprite2D" parent="."]
-texture = ExtResource("2_x2xcq")
+texture = ExtResource("2_o6c2w")
 centered = false
 
 [node name="Button" type="Button" parent="."]
@@ -280,15 +280,15 @@ offset_top = -34.0
 offset_right = 103.0
 offset_bottom = -5.0
 
-[node name="DeckCards" parent="." instance=ExtResource("4_j7hwl")]
+[node name="DeckCards" parent="." instance=ExtResource("3_xp2h7")]
 position = Vector2(1282, 365)
 
-[node name="CardsToDeal" parent="." instance=ExtResource("3_gdclr")]
+[node name="CardsToDeal" parent="." instance=ExtResource("4_7iq34")]
 position = Vector2(1346, 466)
 
 [node name="CardsOnDeck" type="Node2D" parent="."]
 position = Vector2(589, 463)
-script = ExtResource("5_s40nu")
+script = ExtResource("5_apm0q")
 metadata/_edit_group_ = true
 
 [node name="CardList" type="HBoxContainer" parent="CardsOnDeck"]

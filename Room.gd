@@ -5,9 +5,9 @@ var table = Table.new()
 func update_players():
 	var l: Array = []
 	l.pop_front()
-	for index in range(Global.playerList.size):
+	for index in range(Global.playerList.size()):
 		var player = Global.playerList[index]
-		var playerId = player["id"]
+		var playerId = player["playerId"]
 		if Global.playerId == playerId:
 			for i in range(index + 1):
 				var p = Global.playerList.pop_front()
@@ -15,10 +15,10 @@ func update_players():
 			break
 	
 	var seatList: Array[Node] = get_node("Seats").get_children()
-	for index in range(Global.playerList.size):
+	for index in range(Global.playerList.size()):
 		var seatDest = seatList[index]
 		var player = Global.playerList[index]
-		seatDest.get_node("Points").text = str(player["chips"])
+#		seatDest.get_node("Points").text = str(player["chips"])
 		seatDest.get_node("Nickname").text = str(player["username"])
 		seatDest.get_node("Position").text = str(player["position"])
 	
@@ -82,6 +82,8 @@ func _on_room_info_update(data):
 	Global.roomName = roomInfo["roomName"]
 	Global.gameConfig = roomInfo["gameConfig"]
 	print("_room_joined: ", data)
+	
+	update_players()
 
 func _on_game_ready(data):
 	print("_on_game_ready: ", data)
@@ -129,11 +131,11 @@ func _ready():
 	
 	auto_ready()
 	
-	deal_cards_to_players()
-	
-	deal_flop()
-	deal_turn()
-	deal_river()
+#	deal_cards_to_players()
+#
+#	deal_flop()
+#	deal_turn()
+#	deal_river()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

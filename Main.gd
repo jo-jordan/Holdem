@@ -37,12 +37,10 @@ func _login():
 func _http_login_completed(result, response_code, headers, body):
 	var response = JSON.parse_string(body.get_string_from_utf8())
 	Global.playerId = response["playerId"]
-	print(response)
 	isLogin = true
 	
 	NetworkHub.connect_to_ws()
 	await NetworkHub.on_ws_connected
-	print("await NetworkHub.on_ws_connected")
 	
 func _check_and_set_username():
 	Global.username = $UsernameText.text
@@ -64,8 +62,15 @@ func _room_joined(data):
 	Global.playerList = roomInfo["playerInfoList"]
 	Global.roomName = roomInfo["roomName"]
 	Global.gameConfig = roomInfo["gameConfig"]
-	
 	print("_room_joined: ", data)
+	
+
+	var room_scene = load("res://nodes/Room.tscn")
+	var room: Room = room_scene.instantiate()
+	room.update_players()
+	get_parent().add_child(room)
+	
+	queue_free()
 
 func _room_created(data):
 	var roomInfo = data["roomInfo"]
@@ -73,11 +78,14 @@ func _room_created(data):
 	Global.roomName = roomInfo["roomName"]
 	Global.gameConfig = roomInfo["gameConfig"]
 	print("_room_created: ", data)
-	var animation: AnimationPlayer = get_node("AnimationPlayer")
-	animation.play("hide_front_door")
+	
 
-	var table_scene = load("res://nodes/TableControl.tscn")
-	get_parent().add_child(table_scene.instantiate())
+	var room_scene = load("res://nodes/Room.tscn")
+	var room: Room = room_scene.instantiate()
+	room.update_players()
+	get_parent().add_child(room)
+	
+	queue_free()
 
 func _room_searched(data):
 	roomList = data["roomList"]
@@ -89,7 +97,6 @@ func _room_searched(data):
 		
 
 func _do_join_room(index, p1, p2):
-	print(roomList[index])
 	Global.roomId = roomList[index]["roomId"]
 	var dict = {
 		"type": "ROOM_JOIN",
