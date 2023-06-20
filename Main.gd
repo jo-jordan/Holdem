@@ -1,7 +1,7 @@
 extends Node
 
 # The URL we will connect to
-var http_auth_url = "http://127.0.0.1:8887/login"
+var http_auth_url = "https://holdem-auth.edgeless.me/login"
 
 
 var isLogin = false
