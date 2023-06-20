@@ -97,6 +97,14 @@ func _on_game_update_bet(data):
 
 func _on_game_deal_player_cards(data):
 	print("_on_game_deal_player_cards: ", data)
+	var seatList: Array[Node] = get_node("Seats").get_children()
+	for index in range(Global.playerList.size()):
+		var seatDest = seatList[index]
+		var player = Global.playerList[index]
+#		seatDest.get_node("Points").text = str(player["chips"])
+		seatDest.get_node("CardList").text = str(player["username"])
+		
+	
 	
 func _on_game_deal_flop_cards(data):
 	print("_on_game_deal_flop_cards: ", data)
@@ -120,6 +128,7 @@ func auto_ready():
 
 func _ready():
 	NetworkHub.room_joined.connect(_on_room_info_update)
+	NetworkHub.room_leaved.connect(_on_room_info_update)
 	NetworkHub.game_ready.connect(_on_game_ready)
 	NetworkHub.game_start.connect(_on_game_start)
 	NetworkHub.game_update_bet.connect(_on_game_update_bet)

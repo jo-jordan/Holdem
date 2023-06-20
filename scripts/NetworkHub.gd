@@ -4,7 +4,9 @@ signal on_ws_connected
 
 var connectSignalEmitted = false
 var isConnected = false
-var websocket_game_url = "wss://holdem-game.edgeless.me"
+# prod wss://holdem-game.edgeless.me
+# local ws://127.0.0.1:8888
+var websocket_game_url = "ws://127.0.0.1:8888"
 
 # Our WebSocketClient instance
 var scoket_game = WebSocketPeer.new()
@@ -43,6 +45,9 @@ func _game_process():
 			match data["type"]:
 				"ROOM_JOIN": 
 					room_joined.emit(data)
+					break
+				"ROOM_LEAVE":
+					room_leaved.emit(data)
 					break
 				"ROOM_CREATE": 
 					room_created.emit(data)
