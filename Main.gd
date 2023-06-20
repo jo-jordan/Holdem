@@ -3,7 +3,7 @@ extends Node
 # The URL we will connect to
 # prod https://holdem-auth.edgeless.me/login
 # local http://192.168.3.2:8887/login
-var http_auth_url = "https://holdem-auth.edgeless.me/login"
+var http_auth_url = "http://192.168.3.2:8887/login"
 
 
 var isLogin = false
@@ -18,7 +18,9 @@ func _ready():
 	NetworkHub.room_created.connect(_room_created)
 	NetworkHub.room_joined.connect(_room_joined)
 	NetworkHub.room_searched.connect(_room_searched)
-
+	if !isLogin:
+		$LoginDialog.visible = true
+	
 func _login():
 	# Create an HTTP request node and connect its completion signal.
 	var http_request = HTTPRequest.new()
@@ -43,9 +45,10 @@ func _http_login_completed(_result, _response_code, _headers, body):
 	
 	NetworkHub.connect_to_ws()
 	await NetworkHub.on_ws_connected
+	$LoginDialog.visible = false
 	
 func _check_and_set_username():
-	Global.username = $UsernameText.text
+	Global.username = $LoginDialog/UsernameText.text
 	if Global.username == null || Global.username == "":
 		$Popup.visible = true
 		$Popup/Label.text = "Enter your username first!"
@@ -132,7 +135,7 @@ func _on_join_table_pressed():
 	isJoinRoom = true
 	_check_and_set_username()
 	if !isLogin:
-		await _login()
+		return
 	$AcceptDialog.visible = true
 	_join_room()
 
@@ -141,6 +144,13 @@ func _on_create_table_pressed():
 	_check_and_set_username()
 	
 	if !isLogin:
-		await _login()
+		return
 	_create_room()
+
+
+
+func _on_login_dialog_confirmed():
+	$LoginDialog.get_ok_button().visible = false
+	$LoginDialog.visible = true
+	_login()
 

@@ -6,7 +6,7 @@ var connectSignalEmitted = false
 var isConnected = false
 # prod wss://holdem-game.edgeless.me
 # local ws://192.168.3.2:8888
-var websocket_game_url = "wss://holdem-game.edgeless.me"
+var websocket_game_url = "ws://192.168.3.2:8888"
 
 # Our WebSocketClient instance
 var scoket_game = WebSocketPeer.new()
