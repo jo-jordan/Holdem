@@ -2,8 +2,8 @@ extends Node
 
 # The URL we will connect to
 # prod wss://holdem-auth.edgeless.me
-# local http://127.0.0.1:8887/login
-var http_auth_url = "http://127.0.0.1:8887/login"
+# local http://192.168.3.2:8887/login
+var http_auth_url = "http://192.168.3.2:8887/login"
 
 
 var isLogin = false
