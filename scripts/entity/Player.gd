@@ -8,8 +8,8 @@ var is_self: bool
 var no: int
 var chips: int
 
-func _init(seat: int, username: String, no: int, is_self: bool = false):
-	self.username = username
-	self.seat = seat
-	self.is_self = is_self
-	self.no = no
+func _init(s: int, u: String, n: int, i_s: bool = false):
+	self.username = u
+	self.seat = s
+	self.is_self = i_s
+	self.no = n

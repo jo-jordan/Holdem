@@ -20,15 +20,12 @@ func _ready():
 	timer.process_callback = Timer.TIMER_PROCESS_PHYSICS
 	timer.start()
 
-func _room_searched(data):
-	pass
-
 func connect_to_ws():
 	var headers = PackedStringArray([str("X-Player-Id:", Global.playerId)])
 	scoket_game.set_handshake_headers(headers)
 	scoket_game.connect_to_url(websocket_game_url)
 
-func _process(delta):
+func _process(_delta):
 	_game_process()
 
 func _game_process():

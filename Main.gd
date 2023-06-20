@@ -36,7 +36,7 @@ func _login():
 	await http_request.request_completed
 
 # Called when the HTTP request is completed.
-func _http_login_completed(result, response_code, headers, body):
+func _http_login_completed(_result, _response_code, _headers, body):
 	var response = JSON.parse_string(body.get_string_from_utf8())
 	Global.playerId = response["playerId"]
 	isLogin = true
@@ -64,6 +64,7 @@ func _room_joined(data):
 	Global.playerList = roomInfo["playerInfoList"]
 	Global.roomName = roomInfo["roomName"]
 	Global.gameConfig = roomInfo["gameConfig"]
+	Global.roomId = roomInfo["roomId"]
 	print("_room_joined: ", data)
 	
 
@@ -79,6 +80,7 @@ func _room_created(data):
 	Global.playerList = roomInfo["playerInfoList"]
 	Global.roomName = roomInfo["roomName"]
 	Global.gameConfig = roomInfo["gameConfig"]
+	Global.roomId = roomInfo["roomId"]
 	print("_room_created: ", data)
 	
 
@@ -98,7 +100,7 @@ func _room_searched(data):
 		$AcceptDialog/ItemList.add_item(str(room.roomName, ": ", room.roomId))
 		
 
-func _do_join_room(index, p1, p2):
+func _do_join_room(index, _p1, _p2):
 	Global.roomId = roomList[index]["roomId"]
 	var dict = {
 		"type": "ROOM_JOIN",

@@ -3,7 +3,7 @@ extends Node2D
 class_name CardsToDeal
 
 func create_card_texture_rect(card_index: int) -> TextureRect:
-	var image_index = GameConstants.CARD_INDEX_TO_IMAGE_INDEX[card_index]
+	var image_index = card_index
 	var textureRect: TextureRect = TextureRect.new()
 	textureRect.texture = load(str("res://assets/cards/", image_index, ".png"))
 	return textureRect

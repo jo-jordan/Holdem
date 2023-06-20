@@ -69,6 +69,7 @@ theme_override_font_sizes/font_size = 28
 text = "Nick1"
 
 [node name="OptionContainer" type="HBoxContainer" parent="Seats/Seat1"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -100,6 +101,11 @@ text = "Fold"
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Raise"
+
+[node name="All-InButton" type="Button" parent="Seats/Seat1/OptionContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "All-In"
 
 [node name="Position" type="Label" parent="Seats/Seat1"]
 offset_left = 34.0
@@ -310,3 +316,8 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [connection signal="pressed" from="Button" to="." method="_on_exit_button_pressed"]
+[connection signal="pressed" from="Seats/Seat1/OptionContainer/CheckButton" to="." method="_on_check_button_pressed"]
+[connection signal="pressed" from="Seats/Seat1/OptionContainer/CallButton" to="." method="_on_call_button_pressed"]
+[connection signal="pressed" from="Seats/Seat1/OptionContainer/FoldButton" to="." method="_on_fold_button_pressed"]
+[connection signal="pressed" from="Seats/Seat1/OptionContainer/RaiseButton" to="." method="_on_raise_button_pressed"]
+[connection signal="pressed" from="Seats/Seat1/OptionContainer/All-InButton" to="." method="_on_all_in_button_pressed"]
