@@ -2,7 +2,7 @@ class_name Room extends Node
 
 var table = Table.new()
 
-func update_players():	
+func update_players():
 	var seatList: Array[Node] = get_node("Seats").get_children()
 	for index in range(Global.playerList.size()):
 		var seatDest = seatList[index]
@@ -10,44 +10,7 @@ func update_players():
 		seatDest.get_node("Points").text = str(player["chips"])
 		seatDest.get_node("Nickname").text = str(player["username"])
 		seatDest.get_node("Position").text = str(player["position"])
-	
 
-func get_player_list() -> Array[Variant]:
-	return [
-		Player.new(1, "test1", 1, true), \
-		Player.new(2, "test2", 2), \
-		Player.new(3, "test3", 3), \
-		Player.new(4, "test4", 4), \
-		Player.new(5, "test5", 5), \
-		Player.new(6, "test6", 6), \
-	];
-
-
-func deal_flop():
-	var deck = DeckUtils.new()
-	var cardsToDealNode: CardsToDeal = get_node("CardsToDeal")
-	var cardsOnDeck = get_node("CardsOnDeck")
-	var delay = 7.0
-	for times in range(0, 3):
-		var cardIndex = deck.deal()
-		cardsToDealNode.deal_flop_card(cardIndex, cardsOnDeck, delay)
-		delay += 0.5
-
-func deal_turn():
-	var deck = DeckUtils.new()
-	var cardsToDealNode: CardsToDeal = get_node("CardsToDeal")
-	var cardsOnDeck = get_node("CardsOnDeck")
-	var delay = 9.0
-	var cardIndex = deck.deal()
-	cardsToDealNode.deal_turn_card(cardIndex, cardsOnDeck, delay)
-
-func deal_river():
-	var deck = DeckUtils.new()
-	var cardsToDealNode: CardsToDeal = get_node("CardsToDeal")
-	var cardsOnDeck = get_node("CardsOnDeck")
-	var delay = 10.0
-	var cardIndex = deck.deal()
-	cardsToDealNode.deal_river_card(cardIndex, cardsOnDeck, delay)
 
 func _update_room_info(roomInfo):
 	Global.playerList = roomInfo["playerInfoList"]
@@ -64,9 +27,20 @@ func _on_room_info_update(data):
 func _on_game_ready(data):
 	print("_on_game_ready: ", data)
 	
-func _on_game_start(_data):
+func _on_game_start(data):
 	$Popup.visible = true
 	$Popup/Label.text = "GAME START!"
+	print("_on_game_start: ", data)
+	var seatList: Array[Node] = get_node("Seats").get_children()
+	for seat in seatList:
+		for card in seat.get_node("CardList").get_children():
+			seat.get_node("CardList").remove_child(card)
+			
+	var cardsOnDeck = get_node("CardsOnDeck")
+	var deckCardList: BoxContainer = cardsOnDeck.get_node("CardList")
+	for card in deckCardList.get_children():
+		deckCardList.remove_child(card)
+		
 
 func _on_game_update_bet(data):
 	print("_on_game_update_bet: ", data)
@@ -95,7 +69,6 @@ func _on_game_update_bet(data):
 
 func _on_game_deal_player_cards(data):
 	var cardsToDealNode: CardsToDeal = get_node("CardsToDeal")
-	var playerList: Array[Variant] = get_player_list()
 	var seatList: Array[Node] = get_node("Seats").get_children()
 
 	var delay = 0.0
@@ -140,7 +113,9 @@ func _on_game_deal_river_cards(data):
 	_deal_to_table(cards)
 
 func _on_game_result(data):
+	$Leaderboard.visible = true
 	print("_on_game_result: ", data)
+	$Leaderboard/Label.text = str("winner: ", data["winner"]["username"], ", win chips: ", data["winner"]["winChips"])
 
 func auto_ready():
 	var dict = {
@@ -163,12 +138,7 @@ func _ready():
 	NetworkHub.game_result.connect(_on_game_result)
 	
 	auto_ready()
-	
-#	deal_cards_to_players()
-#
-#	deal_flop()
-#	deal_turn()
-#	deal_river()
+
 
 
 func _on_exit_button_pressed():

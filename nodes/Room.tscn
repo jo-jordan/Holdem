@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://chjdbc8r5p4jh"]
+[gd_scene load_steps=10 format=3 uid="uid://chjdbc8r5p4jh"]
 
 [ext_resource type="Script" path="res://Room.gd" id="1_cq6xx"]
 [ext_resource type="Texture2D" uid="uid://tqf61qesen6x" path="res://assets/table/table.png" id="2_o6c2w"]
@@ -10,6 +10,12 @@
 subpixel_positioning = 0
 
 [sub_resource type="SystemFont" id="SystemFont_sxfs2"]
+
+[sub_resource type="SystemFont" id="SystemFont_4k625"]
+
+[sub_resource type="Theme" id="Theme_57vci"]
+default_font = SubResource("SystemFont_4k625")
+default_font_size = 36
 
 [node name="Room" type="Node"]
 script = ExtResource("1_cq6xx")
@@ -37,10 +43,10 @@ position = Vector2(704, 720)
 
 [node name="CardList" type="HBoxContainer" parent="Seats/Seat1"]
 layout_direction = 2
-offset_left = 8.00006
-offset_top = 40.0001
-offset_right = 338.0
-offset_bottom = 292.0
+offset_left = -12.0
+offset_top = 51.0
+offset_right = 318.0
+offset_bottom = 303.0
 scale = Vector2(0.8, 0.8)
 
 [node name="Counter" type="Label" parent="Seats/Seat1"]
@@ -53,10 +59,9 @@ theme_override_font_sizes/font_size = 28
 text = "30S"
 
 [node name="Points" type="Label" parent="Seats/Seat1"]
-offset_left = 107.0
-offset_top = -3.0
-offset_right = 243.0
-offset_bottom = 56.0
+offset_left = 105.0
+offset_right = 241.0
+offset_bottom = 45.0
 theme_override_font_sizes/font_size = 30
 text = "99999"
 
@@ -130,22 +135,28 @@ grow_vertical = 2
 scale = Vector2(0.8, 0.8)
 
 [node name="Counter" type="Label" parent="Seats/Seat2"]
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = -92.0
+offset_top = -33.0
+offset_right = -52.0
+offset_bottom = -10.0
 
 [node name="Points" type="Label" parent="Seats/Seat2"]
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 159.0
+offset_top = -30.0
+offset_right = 199.0
+offset_bottom = -7.0
 
 [node name="Nickname" type="Label" parent="Seats/Seat2"]
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 9.0
+offset_top = -53.0
+offset_right = 49.0
+offset_bottom = -30.0
 
 [node name="Position" type="Label" parent="Seats/Seat2"]
-offset_left = 34.0
-offset_top = -34.0
-offset_right = 103.0
-offset_bottom = -5.0
+offset_left = 90.0
+offset_top = -52.0
+offset_right = 159.0
+offset_bottom = -23.0
 
 [node name="Seat3" type="Node2D" parent="Seats"]
 position = Vector2(176, 224)
@@ -155,10 +166,10 @@ layout_direction = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -7.99994
-offset_top = 6.10352e-05
-offset_right = 322.0
-offset_bottom = 252.0
+offset_left = -3.0
+offset_top = 45.0
+offset_right = 327.0
+offset_bottom = 297.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.8, 0.8)
@@ -168,18 +179,22 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="Points" type="Label" parent="Seats/Seat3"]
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 90.0
+offset_top = -26.0
+offset_right = 130.0
+offset_bottom = -3.0
 
 [node name="Nickname" type="Label" parent="Seats/Seat3"]
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 40.0
+offset_top = -53.0
+offset_right = 80.0
+offset_bottom = -30.0
 
 [node name="Position" type="Label" parent="Seats/Seat3"]
-offset_left = 34.0
-offset_top = -34.0
-offset_right = 103.0
-offset_bottom = -5.0
+offset_left = 99.0
+offset_top = -57.0
+offset_right = 168.0
+offset_bottom = -28.0
 
 [node name="Seat4" type="Node2D" parent="Seats"]
 position = Vector2(832, 96)
@@ -189,10 +204,9 @@ layout_direction = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -7.99994
-offset_top = 6.10352e-05
-offset_right = 322.0
-offset_bottom = 252.0
+offset_top = 52.0
+offset_right = 330.0
+offset_bottom = 304.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.8, 0.8)
@@ -314,6 +328,17 @@ scale = Vector2(0.8, 0.8)
 [node name="Label" type="Label" parent="Popup"]
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="Leaderboard" type="AcceptDialog" parent="."]
+position = Vector2i(512, 300)
+size = Vector2i(900, 500)
+
+[node name="Label" type="Label" parent="Leaderboard"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 892.0
+offset_bottom = 451.0
+theme = SubResource("Theme_57vci")
 
 [connection signal="pressed" from="Button" to="." method="_on_exit_button_pressed"]
 [connection signal="pressed" from="Seats/Seat1/OptionContainer/CheckButton" to="." method="_on_check_button_pressed"]

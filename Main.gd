@@ -1,8 +1,8 @@
 extends Node
 
 # The URL we will connect to
-# prod https://holdem-auth.edgeless.me/login
-# local http://192.168.3.2:8887/login
+# prod "https://holdem-auth.edgeless.me/login"
+# local "http://192.168.3.2:8887/login"
 var http_auth_url = "http://192.168.3.2:8887/login"
 
 
@@ -152,5 +152,6 @@ func _on_create_table_pressed():
 func _on_login_dialog_confirmed():
 	$LoginDialog.get_ok_button().visible = false
 	$LoginDialog.visible = true
+	Global.username = $LoginDialog/UsernameText.text
 	_login()
 
