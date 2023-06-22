@@ -7,7 +7,7 @@ var roomName = ""
 var playerList = []
 var gameConfig
 
-var env = "prod"
+var env = "l"
 # prod "wss://holdem-game.edgeless.me"
 # local "ws://192.168.3.2:8888"
 var ws_url = "wss://holdem-game.edgeless.me" if env == "prod" else "ws://192.168.3.2:8888"

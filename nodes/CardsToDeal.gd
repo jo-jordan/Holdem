@@ -11,6 +11,9 @@ func create_card_texture_rect(card_index: int) -> TextureRect:
 func deal_card(card_index: int, dest: Node2D, delay: float):
 	var textureRect: TextureRect = create_card_texture_rect(card_index)
 	
+	if get_child_count() < 1:
+		_add_cards()
+	
 	var child: Sprite2D = get_child(0)
 	remove_child(child)
 	get_parent().add_child(child)
@@ -29,6 +32,9 @@ func deal_card(card_index: int, dest: Node2D, delay: float):
 
 func deal_to_player(card_index: int, dest: Node2D, delay: float):
 	var textureRect: TextureRect = create_card_texture_rect(card_index)
+	
+	if get_child_count() < 1:
+		_add_cards()
 	
 	var child: Sprite2D = get_child(0)
 	remove_child(child)
@@ -64,7 +70,10 @@ func deal_turn_card(card_index: int, dest: Node2D, delay: float):
 func deal_flop_card(card_index: int, dest: Node2D, delay: float):
 	deal_card(card_index, dest, delay)
 
-func _ready():
+func _add_cards():
 	for times in range(0, 52):
 		var cardSpirite = get_node("CardSetToDeal").duplicate()
 		add_child(cardSpirite)
+
+func _ready():
+	_add_cards()

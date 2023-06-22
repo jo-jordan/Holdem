@@ -405,10 +405,10 @@ offset_right = 703.0
 offset_bottom = 248.0
 
 [node name="RoomBetPool" type="Label" parent="."]
-offset_left = 891.0
-offset_top = 309.0
-offset_right = 1011.0
-offset_bottom = 356.0
+offset_left = 516.0
+offset_top = 265.0
+offset_right = 636.0
+offset_bottom = 312.0
 theme = ExtResource("3_nxo1i")
 
 [connection signal="pressed" from="Button" to="." method="_on_exit_button_pressed"]
