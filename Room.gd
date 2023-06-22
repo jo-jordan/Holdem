@@ -4,6 +4,14 @@ var table = Table.new()
 
 func update_players():
 	var seatList: Array[Node] = get_node("Seats").get_children()
+	
+	for index in range(seatList.size()):
+		var seatDest = seatList[index]
+		seatDest.get_node("Points").text = ""
+		seatDest.get_node("Nickname").text = ""
+		seatDest.get_node("Position").text = ""
+		seatDest.get_node("Counter").text = ""
+	
 	for index in range(Global.playerList.size()):
 		var seatDest = seatList[index]
 		var player = Global.playerList[index]
@@ -112,6 +120,11 @@ func _on_game_deal_river_cards(data):
 	var cards = data["cards"]
 	_deal_to_table(cards)
 
+func _on_game_bet_info(data):
+	$OpsList.add_item(str(data["playerName"], ": ", data["betType"], " -> ", data["betAmount"]))
+	$RoomBetPool.text = str("Pool: ", data["roomBetPool"])
+	print("_on_game_bet_info: ", data)
+
 func _on_game_result(data):
 	$Leaderboard.visible = true
 	print("_on_game_result: ", data)
@@ -131,6 +144,7 @@ func _ready():
 	NetworkHub.game_ready.connect(_on_game_ready)
 	NetworkHub.game_start.connect(_on_game_start)
 	NetworkHub.game_update_bet.connect(_on_game_update_bet)
+	NetworkHub.game_bet_info.connect(_on_game_bet_info)
 	NetworkHub.game_deal_player_cards.connect(_on_game_deal_player_cards)
 	NetworkHub.game_deal_flop_cards.connect(_on_game_deal_flop_cards)
 	NetworkHub.game_deal_turn_cards.connect(_on_game_deal_turn_cards)
@@ -139,14 +153,17 @@ func _ready():
 	
 	auto_ready()
 
-
-
 func _on_exit_button_pressed():
 	var dict = {
 		"type": "ROOM_LEAVE",
 		"roomId": Global.roomId,
 	}
 	NetworkHub.send(dict)
+	
+	var main_scene = load("res://main.tscn")
+	var main = main_scene.instantiate()
+	get_parent().add_child(main)
+	
 	queue_free()
 
 func _hide_option_container():
@@ -154,6 +171,7 @@ func _hide_option_container():
 	var seatDest = seatList[0]
 	var optionContainer: BoxContainer = seatDest.get_node("OptionContainer")
 	optionContainer.visible = false
+	$Seats/Seat1/TextEdit.visible = false
 
 func _on_check_button_pressed():
 	var dict = {
@@ -163,7 +181,6 @@ func _on_check_button_pressed():
 	}
 	NetworkHub.send(dict)
 	_hide_option_container()
-	
 
 
 func _on_call_button_pressed():
@@ -187,15 +204,22 @@ func _on_fold_button_pressed():
 
 
 func _on_raise_button_pressed():
+	bet_type = "RAISE"
+	$Seats/Seat1/TextEdit.visible = true
+	$Seats/Seat1/TextEdit.clear()
+
+func _on_text_edit_text_submitted(new_text):
+	var raiseTo = int(new_text)
+	if raiseTo <= 0:
+		return
 	var dict = {
 		"type": "GAME_BET",
-		"betType": "RAISE",
-		"betAmount": 1000, ## TODO
+		"betType": bet_type,
+		"betAmount": raiseTo, ## TODO
 		"roomId": Global.roomId
 	}
 	NetworkHub.send(dict)
 	_hide_option_container()
-
 
 func _on_all_in_button_pressed():
 	var dict = {
@@ -205,3 +229,24 @@ func _on_all_in_button_pressed():
 	}
 	NetworkHub.send(dict)
 	_hide_option_container()
+
+var bet_type = "BET"
+
+func _on_bet_button_pressed():
+	bet_type = "BET"
+	$Seats/Seat1/TextEdit.visible = true
+	$Seats/Seat1/TextEdit.clear()
+	
+
+
+func _on_text_edit_text_changed(new_text):
+	var filtered_text = ""
+	for i in range(new_text.length()):
+		var char = new_text[i]
+		if char in "0123456789":
+			if i == 0 and char == "0" and new_text.length() > 1:  # If first char is '0' and there is more than one char
+				continue  # Skip this iteration
+			filtered_text += char
+	$Seats/Seat1/TextEdit.text = filtered_text
+	$Seats/Seat1/TextEdit.caret_column = filtered_text.length()
+

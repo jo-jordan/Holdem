@@ -4,9 +4,7 @@ signal on_ws_connected
 
 var connectSignalEmitted = false
 var isConnected = false
-# prod "wss://holdem-game.edgeless.me"
-# local "ws://192.168.3.2:8888"
-@export var websocket_game_url = "ws://192.168.3.2:8888"
+var websocket_game_url = Global.ws_url
 
 # Our WebSocketClient instance
 var scoket_game = WebSocketPeer.new()
@@ -57,6 +55,9 @@ func _game_process():
 					break
 				"GAME_UPDATE_BET":
 					game_update_bet.emit(data)
+					break
+				"GAME_BET_INFO":
+					game_bet_info.emit(data)
 					break
 				"GAME_START":
 					game_start.emit(data)

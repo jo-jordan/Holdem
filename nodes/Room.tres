@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dfhp5k8srrvjm"]
+
+[sub_resource type="SystemFont" id="SystemFont_5rx5e"]
+
+[resource]
+default_font = SubResource("SystemFont_5rx5e")
+default_font_size = 28
